@@ -1,0 +1,48 @@
+.firstImageAbs{
+    position:absolute;
+}
+.firstTextRel{
+
+    position: relative;
+    margin-top: 75px;
+    margin-left: 70%;
+}
+.firstTextRel2{
+    position: relative;
+    right: 35%;
+    margin-top: 175px;
+}
+.secondPartAbs{
+    margin-top: -165px;
+    position: absolute;
+}
+.secondRelText1{
+    position:relative;
+    margin-left: 70%;
+    margin-top: 20px;
+}
+.secondRelText2{
+    position:relative;
+    margin-top: -220px;
+    right:10%;
+}
+.secondRelText3{
+    position:relative;
+    margin-top: 185px;
+    right:35%;
+}
+.secondRelText4{
+    position:relative;
+    margin-left: 20%;
+    margin-top: -228px;
+}
+
+/* .head-text {
+   position: relative;
+}
+.text-on-image {
+  position: absolute;
+  right: 50%;
+  left: 50%;
+  bottom: 15%;
+} */
