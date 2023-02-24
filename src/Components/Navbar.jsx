@@ -1,12 +1,34 @@
 // import {Link as RouterLink} from "react-router-dom";
-import { Input,Button, Flex, InputGroup, InputRightElement,Stack, Box,Image } from "@chakra-ui/react";
+import { Input,Button, Flex, InputGroup, InputRightElement,Stack, Box,Image, Text } from "@chakra-ui/react";
+import { useDisclosure } from "@chakra-ui/react";
 import {SearchIcon} from "@chakra-ui/icons";
 import WithSubnavigation from "./NavigationBar";
+import { useRef,useState } from "react";
+import {
+    Drawer,
+    DrawerBody,
+    DrawerHeader,
+    DrawerOverlay,
+    DrawerContent,
+    DrawerCloseButton,
+  } from '@chakra-ui/react'
+import { Link } from "react-router-dom";
+
+
+
 
 
 const Navbar = () => {
+
+    const { isOpen,onOpen, onClose } = useDisclosure()
+    const firstField = useRef();
+    const [show, setShow] = useState(false)
+    const handleClick = () => setShow(!show)
+
+
   return (
     <Box>
+        
         <Flex w="100%" justifyContent="space-between">
         <Image marginLeft="20px" marginRight="40px" marginTop="3px" width="120px" src="https://lh3.googleusercontent.com/46cM1tmRU44KV5aZxGULhXe7ie9S745DxEQcczQnWcS9DbaZRFA1_ibqGeJK2GkriveOhtaCZbEScuaIyDoxQqOl5D_SeOZ6SL5Qoy0" alt="logo"/>
 
@@ -24,9 +46,63 @@ const Navbar = () => {
         <Button size='sm' colorScheme='white' variant='ghost'>
             Card
         </Button>
-        <Button size='sm' colorScheme='white' variant='ghost'>
+        <Button size='sm' colorScheme='white' variant='ghost' onClick={onOpen}>
             Sign In
         </Button>
+        <Drawer
+            isOpen={isOpen}
+            placement='right'
+            initialFocusRef={firstField}
+            onClose={onClose}
+        >
+            <DrawerOverlay />
+            <DrawerContent>
+            <DrawerCloseButton />
+            <DrawerHeader borderBottomWidth='1px'>
+                Sign In
+            </DrawerHeader>
+    
+            <DrawerBody>
+                <Stack spacing='24px'>
+                <Box>
+                    <Input
+                    ref={firstField}
+                    id='username'
+                    placeholder='Email*'
+                    />
+                </Box>
+                <Box>
+                <InputGroup size='md'>
+                <Input
+                    pr='4.5rem'
+                    type={show ? 'text' : 'password'}
+                    placeholder='Password*'
+                />
+                <InputRightElement width='4.5rem'>
+                    <Button variant="ghost" h='1.75rem' size='sm' onClick={handleClick}>
+                    {show ? 'Hide' : 'Show'}
+                    </Button>
+                </InputRightElement>
+                </InputGroup>
+                </Box>
+                <Button bg="rgb(58,42,124)" color="white">
+                    Sign In
+                </Button>
+                <Text fontSize={12}>You can login with the same email & password as: OneStopPlus®, Woman Within®, Roaman's®, Jessica London®, Ellos®, Intimates For All™, Shoes For All™, Swimsuits For All®, BrylaneHome®, King Size®, June+Vie™, Active For All® and FullBeauty Outlet®.</Text>
+                <hr />
+                <Link to="/createaccount">
+                <Button w="100%" bg="rgb(58,42,124)" color="white">
+                    Create Account
+                </Button>
+                </Link>
+                
+                <Text fontSize={12}>Enhance your shopping experience & get rewards
+                </Text>
+                <hr />
+                </Stack>
+            </DrawerBody>
+            </DrawerContent>
+        </Drawer>
         <Button size='sm' colorScheme='white' variant='ghost'>
             Bag
         </Button>
