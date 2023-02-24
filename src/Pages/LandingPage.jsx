@@ -1,5 +1,7 @@
 import { Box, Button, Center, Flex, Heading, Text,Image, Grid, GridItem } from '@chakra-ui/react'
 import React from 'react'
+import { Link } from 'react-router-dom';
+import Footer from '../Components/Footer';
 import Navbar from '../Components/Navbar';
 import "./LandingPage.css";
 
@@ -93,7 +95,7 @@ const LandingPage = () => {
         <Box>
             <Image marginTop={10} src="https://cdn-fsly.yottaa.net/5f90511cd93140f2cca8dcaa/www.catherines.com/v~4b.349/on/demandware.static/-/Sites-oss-Library/default/dwe64eda39/ca-images/homepage/2022/wk37/09-2022-CA-Outfitting-HP-Banner-051622_D2.jpg?yocs=j_m_" />
         </Box>
-        
+        <Footer />
     </Box>
   )
 }
