@@ -1,7 +1,9 @@
 import { Button, Center, Heading, Input, InputGroup, InputRightElement, Stack } from '@chakra-ui/react';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import Footer from '../Components/Footer';
 import Navbar from '../Components/Navbar';
+import { AuthContext } from '../Context/AuthContext';
 
 const init = { email: "", password: "" };
 
@@ -11,6 +13,8 @@ const AccountPage = () => {
     const handleClick = () => setShow(!show);
     const [formData, setFormData] = useState(init);
     const { email, password } = formData;
+    const {SignUp,stoken} = useContext(AuthContext);
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -20,7 +24,10 @@ const AccountPage = () => {
 
       const SubmitData =(e)=>{
         e.preventDefault();
-        getData(formData)
+        getData(formData);
+        if(stoken){
+          navigate("/")
+        }
       }
 
     const getData = (obj) =>{
@@ -30,43 +37,9 @@ const AccountPage = () => {
                 "Content-Type" : "application/json",
             },
             body: JSON.stringify(obj),
-        }).then((res)=>console.log(res))
+        }).then((res)=>res.json()).then((data)=>SignUp(data.token))
     }
 
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //     setbtnPress(true);
-    //     PostRequest(formData);
-    //   };
-
-    // const PostRequest = (obj) => {
-    //     return fetch("https://reqres.in/api/login", {
-    //       method: "POST",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //       body: JSON.stringify(obj),
-    //     })
-    //       .then((response) => {
-    //         if (response.status === 200) {
-    //           return response.json();
-    //         }
-    //         return response.json();
-    //       })
-    //       .then((data) => {
-    //         if (data.token) {
-    //           let token = data.token;
-    //           login(token);
-    //           // console.log(data,"hello");
-    //         }
-    //         else{
-    //           console.log(data.error);
-    //         }
-    //       })
-    //       .catch((error) => {
-    //         console.log(error,"Error");
-    //       });
-    //   };
 
   return (
     <>
@@ -74,8 +47,8 @@ const AccountPage = () => {
     <Heading marginTop="30px">Create Account</Heading>
     <Stack>
         <Center>
-        <Input marginTop="50px" w="35%" placeholder='Please Enter Your Email' size='md'
-        
+        <Input marginTop="50px" w="35%" name="email" placeholder='Please Enter Your Email' size='md'
+        value={email}
         onChange={(e) => handleChange(e)} />
         </Center>
         <Center>
@@ -84,8 +57,9 @@ const AccountPage = () => {
             pr='4.5rem'
             type={show ? 'text' : 'password'}
             placeholder='Please Enter password'
-            
-              onChange={(e) => handleChange(e)}
+            name="password"
+            value={password}
+            onChange={(e) => handleChange(e)}
         />
         <InputRightElement width='4.5rem'>
             <Button variant="ghost" h='1.75rem' size='sm' onClick={handleClick}>

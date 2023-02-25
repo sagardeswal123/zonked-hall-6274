@@ -3,7 +3,7 @@ import { Input,Button, Flex, InputGroup, InputRightElement,Stack, Box,Image, Tex
 import { useDisclosure } from "@chakra-ui/react";
 import {SearchIcon} from "@chakra-ui/icons";
 import WithSubnavigation from "./NavigationBar";
-import { useRef,useState } from "react";
+import { useContext, useRef,useState } from "react";
 import {
     Drawer,
     DrawerBody,
@@ -13,6 +13,7 @@ import {
     DrawerCloseButton,
   } from '@chakra-ui/react'
 import { Link } from "react-router-dom";
+import { AuthContext } from "../Context/AuthContext";
 
 
 
@@ -24,13 +25,14 @@ const Navbar = () => {
     const firstField = useRef();
     const [show, setShow] = useState(false)
     const handleClick = () => setShow(!show)
+    const {stoken} = useContext(AuthContext)
 
 
   return (
     <Box>
         
         <Flex w="100%" justifyContent="space-between">
-        <Image marginLeft="20px" marginRight="40px" marginTop="3px" width="120px" src="https://lh3.googleusercontent.com/46cM1tmRU44KV5aZxGULhXe7ie9S745DxEQcczQnWcS9DbaZRFA1_ibqGeJK2GkriveOhtaCZbEScuaIyDoxQqOl5D_SeOZ6SL5Qoy0" alt="logo"/>
+        <Image marginLeft="20px" marginRight="40px" marginTop="3px" width="120px" src="https://lh3.googleusercontent.com/BGVDCcxtLqNVR9JozCRBXgBUO_sphzfzpprGLGVTH0JOj6bSDgCMPmGUJt9pLNaDkfIZoHtNN4rfMwjN-tKlAfwTCyg87lMmekSCr4N4" alt="logo"/>
 
         <Flex justifyContent="center">
         <InputGroup marginLeft="30px" marginTop="30px" size='xl'>
@@ -47,7 +49,7 @@ const Navbar = () => {
             Card
         </Button>
         <Button size='sm' colorScheme='white' variant='ghost' onClick={onOpen}>
-            Sign In
+            {(stoken)?"Sign Out":"Sign In"}
         </Button>
         <Drawer
             isOpen={isOpen}
