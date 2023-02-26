@@ -1,56 +1,57 @@
-import {
-  IconButton,
-  Box,
-  CloseButton,
-  Flex,
-  Icon,
-  useColorModeValue,
-  Link,
-  Drawer,
-  DrawerContent,
-  Text,
-  useDisclosure,
-  Center
-
-} from '@chakra-ui/react';
+import { Box, Flex, Select } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import {
-  FiHome,
-  FiTrendingUp,
-  FiCompass,
-  FiStar,
-  FiSettings,
-  FiMenu,
-} from 'react-icons/fi';
+
 import Navbar from '../Components/Navbar';
 import ProductItem from './ProductItem';
 
-
-
-const LinkItems = [
-  { name: 'Home', icon: FiHome },
-  { name: 'Trending', icon: FiTrendingUp },
-  { name: 'Explore', icon: FiCompass },
-  { name: 'Favourites', icon: FiStar },
-  { name: 'Settings', icon: FiSettings },
-];
-
-
-
-
 export default function Product(){
 
-  const [data, setData] = useState([])
+  const [data, setData] = useState([]);
+  const [porder, setPorder] = useState("");
+  const [rorder, setRorder] = useState("");
+  const [color, setColor] = useState("");
 
+  const getData = ()=>{
+    fetch(`https://63f4fc3255677ef68bc7ee48.mockapi.io/product?sortBy=price&order=${porder}&filter=${color}`).then((data)=>data.json())
+    .then((res)=>setData(res))
+  }
+  const getData1 = ()=>{
+    fetch(`https://63f4fc3255677ef68bc7ee48.mockapi.io/product?sortBy=rating&order=${rorder}&filter=${color}`).then((data)=>data.json())
+    .then((res)=>setData(res))
+  }
 
   useEffect(()=>{
-    fetch(`https://63f4fc3255677ef68bc7ee48.mockapi.io/product`).then((data)=>data.json())
-    .then((res)=>setData(res))
-  },[])
+    getData1(rorder,color)
+  },[rorder,color])
+
+  useEffect(()=>{
+    getData(porder,color)
+  },[porder,color])
 
   return (
     <>
     <Navbar/>
+    <Box w="70%" m="auto">
+    <Flex gap="10px" marginTop="20px">
+    <Select onChange={(e)=>setPorder(e.target.value)} placeholder='Sort By Price'>
+      <option value='asc'>Low To High</option>
+      <option value='desc'>High To Low</option>
+    </Select>
+    <Select onChange={(e)=>setColor(e.target.value)} placeholder='Filter By Color'>
+      <option value='red'>RED</option>
+      <option value='black'>Black</option>
+      <option value='green'>GREEN</option>
+      <option value='blue'>BLUE</option>
+      <option value='gray'>GRAY</option>
+      <option value='white'>WHITE</option>
+      <option value='purple'>PURPLE</option>
+    </Select>
+      <Select onChange={(e)=>setRorder(e.target.value)} placeholder='Sort By Rating'>
+      <option value='desc'>High To Low</option>
+      <option value='asc'>Low To High</option>
+    </Select>
+    </Flex>
+    </Box>
     <div style={{display:"grid",width:"100%",gridTemplateColumns:"repeat(4,1fr)",margin:"2rem 0px 0px 0px", marginTop:"2rem"}}>
 
     {/* <SimpleSidebar/> 
@@ -71,113 +72,3 @@ export default function Product(){
   )
 }
 
-function SimpleSidebar({ children }) {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  return (
-    <Box minH="100vh" bg={useColorModeValue('gray.100', 'gray.900')}>
-      <SidebarContent
-        onClose={() => onClose}
-        display={{ base: 'none', md: 'block' }}
-      />
-      <Drawer
-        autoFocus={false}
-        isOpen={isOpen}
-        placement="left"
-        onClose={onClose}
-        returnFocusOnClose={false}
-        onOverlayClick={onClose}
-        size="full">
-        <DrawerContent>
-          <SidebarContent onClose={onClose} />
-        </DrawerContent>
-      </Drawer>
-      {/* mobilenav */}
-      <MobileNav display={{ base: 'flex', md: 'none' }} onOpen={onOpen} />
-      <Box ml={{ base: 0, md: 60 }} p="4">
-        {children}
-      </Box>
-    </Box>
-  );
-}
-
-const SidebarContent = ({ onClose, ...rest }) => {
-  return (
-    <Box
-      bg={useColorModeValue('white', 'gray.900')}
-      borderRight="1px"
-      borderRightColor={useColorModeValue('gray.200', 'gray.700')}
-      w={{ base: 'full', md: 60 }}
-      pos="fixed"
-      h="full"
-      {...rest}>
-      <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-        <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
-          Filter By
-        </Text>
-        <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
-      </Flex>
-      {LinkItems.map((link) => (
-        <NavItem key={link.name} icon={link.icon}>
-          {link.name}
-        </NavItem>
-      ))}
-    </Box>
-  );
-};
-
-const NavItem = ({ icon, children, ...rest }) => {
-  return (
-    <Link href="#" style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
-      <Flex
-        align="center"
-        p="4"
-        mx="4"
-        borderRadius="lg"
-        role="group"
-        cursor="pointer"
-        _hover={{
-          bg: 'cyan.400',
-          color: 'white',
-        }}
-        {...rest}>
-        {icon && (
-          <Icon
-            mr="4"
-            fontSize="16"
-            _groupHover={{
-              color: 'white',
-            }}
-            as={icon}
-          />
-        )}
-        {children}
-      </Flex>
-    </Link>
-  );
-};
-
-const MobileNav = ({ onOpen, ...rest }) => {
-  return (
-    <Flex
-      ml={{ base: 0, md: 60 }}
-      px={{ base: 4, md: 24 }}
-      height="20"
-      alignItems="center"
-      bg={useColorModeValue('white', 'gray.900')}
-      borderBottomWidth="1px"
-      borderBottomColor={useColorModeValue('gray.200', 'gray.700')}
-      justifyContent="flex-start"
-      {...rest}>
-      <IconButton
-        variant="outline"
-        onClick={onOpen}
-        aria-label="open menu"
-        icon={<FiMenu />}
-      />
-
-      <Text fontSize="2xl" ml="8" fontFamily="monospace" fontWeight="bold">
-        Logo
-      </Text>
-    </Flex>
-  );
-};

@@ -1,6 +1,6 @@
 import { Button, Center, Heading, Input, InputGroup, InputRightElement, Stack } from '@chakra-ui/react';
 import React, { useContext, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Footer from '../Components/Footer';
 import Navbar from '../Components/Navbar';
 import { AuthContext } from '../Context/AuthContext';

@@ -14,10 +14,7 @@ import {
   } from '@chakra-ui/react'
 import { Link } from "react-router-dom";
 import { AuthContext } from "../Context/AuthContext";
-
-
-
-
+import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
 
@@ -26,13 +23,13 @@ const Navbar = () => {
     const [show, setShow] = useState(false)
     const handleClick = () => setShow(!show)
     const {stoken} = useContext(AuthContext)
-
+    const navigate = useNavigate();
 
   return (
     <Box>
         
         <Flex w="100%" justifyContent="space-between">
-        <Image marginLeft="20px" marginRight="40px" marginTop="3px" width="120px" src="https://lh3.googleusercontent.com/BGVDCcxtLqNVR9JozCRBXgBUO_sphzfzpprGLGVTH0JOj6bSDgCMPmGUJt9pLNaDkfIZoHtNN4rfMwjN-tKlAfwTCyg87lMmekSCr4N4" alt="logo"/>
+        <Image onClick={()=>navigate("/")} marginLeft="20px" marginRight="40px" marginTop="3px" width="120px" src="https://lh3.googleusercontent.com/BGVDCcxtLqNVR9JozCRBXgBUO_sphzfzpprGLGVTH0JOj6bSDgCMPmGUJt9pLNaDkfIZoHtNN4rfMwjN-tKlAfwTCyg87lMmekSCr4N4" alt="logo"/>
 
         <Flex justifyContent="center">
         <InputGroup marginLeft="30px" marginTop="30px" size='xl'>
